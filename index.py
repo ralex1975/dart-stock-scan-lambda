@@ -1,19 +1,3 @@
-import json
-import datetime
-
-# try comment to push
-
-
-def handler(event, context):
-    data = {
-        'output': 'Hello World 11',
-        'timestamp': datetime.datetime.utcnow().isoformat()
-    }
-    return {'statusCode': 200,
-            'body': json.dumps(data),
-            'headers': {'Content-Type': 'application/json'}}
-
-
 import pandas as pd
 import time as _time
 import requests
@@ -24,28 +8,6 @@ from dateutil import tz
 from talib import EMA,SMA, WMA
 from finta import TA
 import math
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import json
-import datetime
-import sys
-import numpy
-
-# try comment to push
 
 
 # def handler(event, context):
@@ -64,22 +26,6 @@ def main():
 
 if __name__== "__main__":
   main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
