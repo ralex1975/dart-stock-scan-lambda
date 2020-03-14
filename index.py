@@ -185,11 +185,12 @@ def main():
         # for now default 0 and can address later
         columnval = "200SMA"
         diffPercent = 0.0
-        content['ARB-{}'.format(columnval)] = 'B'
+        ARBcolumnval = 'ARB-{}'.format(columnval)
+        content[ARBcolumnval] = 'B'
 
         # If condition is above set A for the rows
 
-        content['ARB-{}'.format(columnval)][
+        content[ARBcolumnval][
             content[content['Close'] >= (1.0 + (0.01 * diffPercent)) * content[columnval]].index] = 'A'
 
         # if content[columnval] >= (1.0 + (0.01 * diffPercent)) * content['Close']:
@@ -202,7 +203,7 @@ def main():
         # Below block gets prev N rows val of a column and create a column
         # It will create column for the chose columnval and also the close
         nrowsback = 1
-        columnvalback = 'ARB-{}'.format(columnval)
+        columnvalback = ARBcolumnval
 
 
         # Create empty columns equal to n previos rows
@@ -212,7 +213,13 @@ def main():
         # Populating the above created columns
         for indexval, row in content.iterrows():
             for itervar in range(1, nrowsback + 1, 1):
-                content["{0}prev{1}".format(columnvalback, itervar)] = content.head(1)[columnvalback].values[0]
+                content["{0}prev{1}".format(columnvalback, itervar)] = content.tail(itervar+1).head(1)[columnvalback].values[0]
+
+        # tail the last line and append to the outputDf
+        # Then from that filter 4 lists as per criteria
+        # essential idea is one row with all data for all stocks and then filer and mail
+        # That is the model for additional criteria
+        content = content.tail(1)
 
 
         # Iterating through the list of index/stock and then appending the processed data to outputDf
