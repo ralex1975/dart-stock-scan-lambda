@@ -29,7 +29,7 @@ Resources:
     Properties:
       FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-HelloWorld'
       Handler: index.handler
-      Runtime: python3.6
+      Runtime: python3.7
       Role:
         Fn::GetAtt:
         - LambdaExecutionRole
@@ -59,18 +59,19 @@ Resources:
       Path: /
       ManagedPolicyArns:
         - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - 'arn:aws:iam::678451980605:policy/dart-analytics-s3-full-policy'
       PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/CodeStar_${ProjectId}_PermissionsBoundary'
 
-  LambdaExecutionRolePolicies:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: !Sub 'CodeStar-${ProjectId}-S3AnalyticsAccess'
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-        - Effect: Allow
-          Action: "*"
-          Resource: "arn:aws:s3:::dart-analytics-dnd/*"
-      Roles:
-      - !Ref LambdaExecutionRole
-      
+#  LambdaExecutionRolePolicies:
+#    Type: AWS::IAM::Policy
+#    Properties:
+#      PolicyName: !Sub 'CodeStar-${ProjectId}-S3AnalyticsAccess'
+#      PolicyDocument:
+#        Version: '2012-10-17'
+#        Statement:
+#        - Effect: Allow
+#          Action: "*"
+#          Resource: "arn:aws:s3:::dart-analytics-dnd/*"
+#      Roles:
+#      - !Ref LambdaExecutionRole
+#
