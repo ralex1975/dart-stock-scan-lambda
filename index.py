@@ -216,14 +216,14 @@ def handler(event, context):
         outputDf = outputDf.append(content, ignore_index=True)
 
     india_tz= tz.gettz('Asia/Kolkata')
-    dtString = datetime.datetime.now(tz=india_tz).strftime("%d-%m-%Y-%H-%M")
+    dtString = datetime.datetime.now(tz=india_tz).strftime("%d-%m-%Y")
     print(outputDf)
     tmpPath = '/tmp/daily_MA_HMA_{}.csv'.format(dtString)
-    uploadBucket = ''
+    uploadBucket = 'dart-analytics-dnd'
     outputDf.to_csv(tmpPath)
 
     s3_client = boto3.client('s3')
-    s3_client.upload_file(tmpPath, 'dart-analytics-dnd', 'daily/daily_MA_HMA_{}.csv'.format(dtString))
+    s3_client.upload_file(tmpPath, uploadBucket, 'daily/daily_MA_HMA_{}.csv'.format(dtString))
 
     data = {
         'output': 'Hello World 11',
