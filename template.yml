@@ -30,7 +30,7 @@ Resources:
       FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-HelloWorld'
       Handler: index.handler
       Runtime: python3.7
-      Timeout: 90
+      Timeout: 900
       Role:
         Fn::GetAtt:
         - LambdaExecutionRole
