@@ -3,6 +3,7 @@ import time as _time
 import requests
 import numpy as np
 import datetime
+import boto3
 from dateutil import tz
 
 from talib import EMA,SMA, WMA
@@ -223,7 +224,13 @@ def main():
     india_tz= tz.gettz('Asia/Kolkata')
     dtString = datetime.datetime.now(tz=india_tz).strftime("%d-%m-%Y-%H-%M")
     print(outputDf)
-    # outputDf.to_csv('/home/bharath/IT/dart_analysis/output_hourly_MA_HMA_{}.csv'.format(dtString))
+    tmpPath = '/tmp/daily_MA_HMA_{}.csv'.format(dtString)
+    uploadBucket = ''
+    outputDf.to_csv(tmpPath)
+
+    s3_client = boto3.client('s3')
+    s3_client.upload_file(tmpPath, 'dart-analytics-dnd', 'daily/daily_MA_HMA_{}.csv'.format(dtString))
+
     print("Hello")
 
 if __name__== "__main__":
