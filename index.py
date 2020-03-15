@@ -166,8 +166,8 @@ def myHMACalc(ohlc, period):
     hma = WMA(deltawma, timeperiod=sqrt_length)
     return pd.Series(hma, name="{0} period HMA.".format(period))
 
-def main():
-# def handler(event, context):
+# def main():
+def handler(event, context):
     print(sys.version)
 
 
