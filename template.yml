@@ -64,6 +64,32 @@ Resources:
         - 'arn:aws:iam::678451980605:policy/dart-analytics-s3-full-policy'
         - 'arn:aws:iam::aws:policy/AmazonSESFullAccess'
       PermissionsBoundary: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:policy/CodeStar_${ProjectId}_PermissionsBoundary'
+      
+  ScheduledRule: 
+    Type: AWS::Events::Rule
+    Properties: 
+      Description: "ScheduledRule"
+      ScheduleExpression: "cron(0 15 * * MON-FRI * )"
+      State: "ENABLED"
+      Targets: 
+        - 
+          Arn: 
+            Fn::GetAtt: 
+              - "HelloWorld"
+              - "Arn"
+          Id: "TargetFunctionV1"
+          
+  PermissionForEventsToInvokeLambda: 
+    Type: AWS::Lambda::Permission
+    Properties: 
+      FunctionName: 
+        Ref: "HelloWorld"
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: 
+        Fn::GetAtt: 
+          - "ScheduledRule"
+          - "Arn"
 
 #  LambdaExecutionRolePolicies:
 #    Type: AWS::IAM::Policy
