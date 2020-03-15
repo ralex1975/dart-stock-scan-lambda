@@ -4,6 +4,7 @@ import requests
 import numpy as np
 import datetime
 import boto3
+import json
 from dateutil import tz
 
 from talib import EMA,SMA, WMA
@@ -98,17 +99,10 @@ def myHMACalc(ohlc, period):
     hma = WMA(deltawma, timeperiod=sqrt_length)
     return pd.Series(hma, name="{0} period HMA.".format(period))
 
-
-# def handler(event, context):
-def main():
+# def main():
+def handler(event, context):
     print(sys.version)
-    # data = {
-    #     'output': 'Hello World 11',
-    #     'timestamp': datetime.datetime.utcnow().isoformat()
-    # }
-    # return {'statusCode': 200,
-    #         'body': json.dumps(data),
-    #         'headers': {'Content-Type': 'application/json'}}
+
 
 # def main():
 #     print(sys.version)
@@ -230,6 +224,14 @@ def main():
 
     s3_client = boto3.client('s3')
     s3_client.upload_file(tmpPath, 'dart-analytics-dnd', 'daily/daily_MA_HMA_{}.csv'.format(dtString))
+
+    data = {
+        'output': 'Hello World 11',
+        'timestamp': datetime.datetime.utcnow().isoformat()
+    }
+    return {'statusCode': 200,
+            'body': json.dumps(data),
+            'headers': {'Content-Type': 'application/json'}}
 
     print("Hello")
 
